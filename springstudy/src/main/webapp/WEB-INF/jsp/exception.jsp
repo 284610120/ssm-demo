@@ -8,9 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true"%>
 <html>
 <head>
-    <title>Title</title>
+    <title>异常页面</title>
 </head>
 <body>
-    <%=exception.getMessage()%>
+    您触发了一个异常:<%=exception.getMessage()%>
 </body>
 </html>

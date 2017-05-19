@@ -19,9 +19,11 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //获取请求的URL
-        System.out.println("走过滤器");
         String url = request.getRequestURI();
-        if(url.indexOf( "hello/login") >= 0) return true;
+        System.out.println("走拦截器:" + url + ":" + url.contains("/hello/login"));
+        if(url.contains("/hello/login")) {
+            return true;
+        }
         //获取Session
         HttpSession session = request.getSession();
         String username = (String)session.getAttribute("user");

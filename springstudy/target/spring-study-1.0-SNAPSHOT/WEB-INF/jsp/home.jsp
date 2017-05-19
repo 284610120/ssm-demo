@@ -11,6 +11,9 @@
     <title>Title</title>
 </head>
 <body>
-Home JSP
+${user}，你好 Home JSP , [<a href="${pageContext.request.contextPath}/hello/logout">退出</a>]<br/>
+<a href="${pageContext.request.contextPath}/hello/test">触发事务异常</a><br/>
+<a href="${pageContext.request.contextPath}/hello/json">打印Json</a><br/>
+
 </body>
 </html>

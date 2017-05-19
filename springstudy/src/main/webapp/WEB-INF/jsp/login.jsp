@@ -11,6 +11,11 @@
     <title>Title</title>
 </head>
 <body>
-LOGIN JSP
+
+
+<form action="${pageContext.request.contextPath}/hello/login" method="post">
+    <input type="text" name="name"/><br/>
+    <input type="submit" value="登录"/>
+</form>
 </body>
 </html>

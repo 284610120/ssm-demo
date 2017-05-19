@@ -7,8 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +37,26 @@ public class HelloController {
         return list;
     }
 
-    @RequestMapping("/login")
+    @RequestMapping(value = "/login") // method = RequestMethod.POST
+    public String login(HttpServletRequest request, HttpServletResponse response) {
+        if ("GET".equalsIgnoreCase(request.getMethod()))  return "login";
+        String name = request.getParameter("name");
+        request.getSession().setAttribute("user",name);
+        return "redirect:/hello/main";
+    }
+
+    @RequestMapping(value = "/main")
+    public String main() {
+        return "home";
+    }
+
+    @RequestMapping(value = "/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        request.getSession().removeAttribute("user");
+        return "redirect:/hello/login";
+    }
+
+    @RequestMapping(value = "/test")
     public String test2() {
         //测试Logback日志输出
         log.info("In viewCourse, courseId = {}", "Info");
