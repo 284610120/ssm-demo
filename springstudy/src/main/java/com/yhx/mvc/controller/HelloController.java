@@ -2,19 +2,25 @@ package com.yhx.mvc.controller;
 
 import com.yhx.mvc.model.User;
 import com.yhx.mvc.service.UserService;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/hello")
@@ -65,5 +71,25 @@ public class HelloController {
         //测试事务方法
         userService.insert(user);
         return "login";
+    }
+
+    @RequestMapping(value = "/doUpload",method = RequestMethod.POST)
+    public String doUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request) throws IOException{
+        if(!file.isEmpty()) {
+            long size = file.getSize();
+            String fileName = file.getOriginalFilename();
+            String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+            String filePath = request.getSession().getServletContext().getRealPath("/") + "upload/";
+            String randomName = UUID.randomUUID().toString() +"."+ ext;
+            FileUtils.copyInputStreamToFile(file.getInputStream(),new File(filePath, randomName));
+            log.debug("------------Process File:{},Size:{}--------------",filePath + randomName,size);
+            return "success";
+        }
+        return "upload";
+    }
+
+    @RequestMapping(value = "/upload",method = RequestMethod.GET)
+    public String upload() throws IOException{
+         return "upload";
     }
 }

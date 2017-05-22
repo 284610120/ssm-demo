@@ -6,7 +6,7 @@
 
     <!-- 日志最大的历史 30天 -->
     <property name="maxHistory" value="30"/>
-
+    <logger name="org.quartz" level="ERROR" />
     <!-- 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
