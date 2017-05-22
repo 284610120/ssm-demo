@@ -178,6 +178,18 @@
       <version>1.7.12</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+      <version>2.2.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
     <!--slf4j end -->
 
     <!-- 映入JSON -->
