@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -28,6 +27,7 @@ public class HelloController {
     private static Logger log = LoggerFactory.getLogger(HelloController.class);
     @Autowired
     private UserService userService;
+
     @RequestMapping("/mvc")
     public String helloMvc() {
         return "home";
@@ -45,9 +45,9 @@ public class HelloController {
 
     @RequestMapping(value = "/login") // method = RequestMethod.POST
     public String login(HttpServletRequest request, HttpServletResponse response) {
-        if ("GET".equalsIgnoreCase(request.getMethod()))  return "login";
+        if ("GET".equalsIgnoreCase(request.getMethod())) return "login";
         String name = request.getParameter("name");
-        request.getSession().setAttribute("user",name);
+        request.getSession().setAttribute("user", name);
         return "redirect:/hello/main";
     }
 
@@ -67,29 +67,29 @@ public class HelloController {
         //测试Logback日志输出
         log.info("In viewCourse, courseId = {}", "Info");
         log.error("In viewCourse, courseId = {}", "Test");
-        User user = new User("李四","123");
+        User user = new User("李四", "123");
         //测试事务方法
         userService.insert(user);
         return "login";
     }
 
-    @RequestMapping(value = "/doUpload",method = RequestMethod.POST)
-    public String doUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request) throws IOException{
-        if(!file.isEmpty()) {
+    @RequestMapping(value = "/doUpload", method = RequestMethod.POST)
+    public String doUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
+        if (!file.isEmpty()) {
             long size = file.getSize();
             String fileName = file.getOriginalFilename();
             String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
             String filePath = request.getSession().getServletContext().getRealPath("/") + "upload/";
-            String randomName = UUID.randomUUID().toString() +"."+ ext;
-            FileUtils.copyInputStreamToFile(file.getInputStream(),new File(filePath, randomName));
-            log.debug("------------Process File:{},Size:{}--------------",filePath + randomName,size);
+            String randomName = UUID.randomUUID().toString() + "." + ext;
+            FileUtils.copyInputStreamToFile(file.getInputStream(), new File(filePath, randomName));
+            log.debug("------------Process File:{},Size:{}--------------", filePath + randomName, size);
             return "success";
         }
         return "upload";
     }
 
-    @RequestMapping(value = "/upload",method = RequestMethod.GET)
-    public String upload() throws IOException{
-         return "upload";
+    @RequestMapping(value = "/upload", method = RequestMethod.GET)
+    public String upload() throws IOException {
+        return "upload";
     }
 }
